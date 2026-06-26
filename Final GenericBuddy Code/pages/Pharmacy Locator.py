@@ -5,6 +5,7 @@ import pandas as pd
 import folium
 from streamlit_folium import st_folium
 from streamlit_geolocation import streamlit_geolocation
+from pathlib import Path
 
 # ─────────────────────────────── Setup
 st.set_page_config(page_title="PHARMACY LOCATOR", layout="wide")
@@ -55,12 +56,36 @@ def gmaps_navigation_link(from_lat, from_lon, to_lat, to_lon):
     return f"https://www.google.com/maps/dir/{from_lat},{from_lon}/{to_lat},{to_lon}"
 
 @st.cache_data
-def load_db(path="GenericP.csv"):
-    df = pd.read_csv(path)
+def load_db():
+    BASE_DIR = Path(__file__).resolve().parent.parent
+    csv_path = BASE_DIR / "GenericP.csv"
+
+    if not csv_path.exists():
+        st.error(f"CSV file not found:\n{csv_path}")
+        st.stop()
+
+    df = pd.read_csv(csv_path)
+
     df.columns = df.columns.str.strip().str.lower()
-    df = df.rename(columns={"name": "name", "address": "address", "pin": "pin", "lat": "lat", "lon": "lon"})
+
+    df = df.rename(columns={
+        "name": "name",
+        "address": "address",
+        "pin": "pin",
+        "lat": "lat",
+        "lon": "lon"
+    })
+
     df = df.dropna(subset=["lat", "lon"])
-    df["pin"] = df["pin"].astype(str).str.split(".").str[0].str.zfill(6)
+
+    df["pin"] = (
+        df["pin"]
+        .astype(str)
+        .str.split(".")
+        .str[0]
+        .str.zfill(6)
+    )
+
     return df
 
 @st.cache_data
