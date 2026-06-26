@@ -1,0 +1,81 @@
+
+# 🛣️ Roadmap: Generic Medicine Finder
+
+A forward-looking plan to evolve the platform from a simple search tool into a comprehensive, AI-powered healthcare ecosystem.
+
+---
+
+## ✅ Phase 1: Core Product Launch (MVP)
+
+**Goal**: Deliver a functional, intuitive platform for generic medicine search.
+
+- [x] Search medicines by brand/proprietary name  
+- [x] Show generic alternatives with formulation and brand details  
+- [x] Display price comparisons (if available)  
+- [x] Clean, responsive UI for desktop  
+- [x] Basic admin dashboard for medicine database management  
+- [ ] Integrate Indian government drug APIs (e.g., Jan Aushadhi)  
+
+---
+
+## 🔄 Phase 2: Functional Expansion
+
+**Goal**: Enhance interactivity, accessibility, and cross-platform reach.
+
+- [x] Add filters (brand, price, strength)  
+- [ ] Enable sorting (price, popularity, user ratings)  
+- [ ] User reviews and feedback on generic brands  
+- [x] Pharmacy locator with real-time maps  
+- [ ] Launch cross-platform mobile app (React Native/Flutter)  
+- [ ] Support multiple Indian languages (Hindi, Bengali, Telugu, etc.)  
+- [ ] Accessibility improvements (screen reader support, contrast modes)  
+
+---
+
+## 🤖 Phase 3: AI Integration & Personalization
+
+**Goal**: Leverage AI for education, personalization, and smart user experiences.
+
+- [ ] **AI-Powered Drug Explainers** (usage, dosage, side effects, precautions)  
+- [ ] Auto-generated infographics (mechanism of action, target organs)  
+- [ ] **Conversational Assistant** (symptom-based suggestions with disclaimers)  
+- [ ] **Smart Alerts** (cheaper alternatives, refill reminders, stock updates)  
+- [ ] **AI Summarization** (latest research briefs for healthcare professionals)  
+
+---
+
+## 📊 Phase 4: Data & Impact Analytics
+
+**Goal**: Measure and improve platform performance while supporting public health.
+
+- [ ] Track most-searched medicines and substitution trends  
+- [ ] Publish public reports on cost savings through generics  
+- [ ] Dashboards for NGOs/government to monitor adoption  
+- [ ] Anonymized data to enhance recommendations  
+
+---
+
+## 🌍 Phase 5: Public Health Integration
+
+**Goal**: Scale to support healthcare systems and improve public access.
+
+- [ ] Integrate with national health schemes (Jan Aushadhi, Ayushman Bharat)  
+- [ ] Public awareness campaigns (shareable content, social media)  
+- [ ] Video consultation with doctors for emergencies  
+- [ ] Enable medicine delivery via e-commerce partners  
+
+---
+
+## 💡 Future Vision
+
+- 📲 **Teleconsultation Integration**: Suggest generics during virtual visits  
+- 💼 **Doctor/Pharmacist Dashboards**: Tools for professionals  
+- 🌐 **Open API Access**: Let third-party health apps integrate  
+- 🧠 **ML-Based Recommendations**: Personalized suggestions based on patterns  
+
+---
+
+## 🚀 Final Goal
+
+A free, AI-powered, multilingual medicine information ecosystem —  
+**empowering patients**, **educating communities**, and **reducing healthcare costs** across India and beyond.

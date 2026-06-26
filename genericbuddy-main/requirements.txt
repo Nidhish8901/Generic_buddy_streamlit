@@ -1,0 +1,33 @@
+# Core dependencies
+streamlit>=1.34.0
+pandas>=2.2.2
+reportlab>=4.1.0
+Pillow>=10.3.0
+
+# Image processing
+pytesseract>=0.3.10
+pdf2image>=1.17.0
+
+# Mapping & geolocation
+folium>=0.16.0
+streamlit-folium>=0.15.0
+streamlit-geolocation>=0.1.7
+
+# Utilities
+difflib
+
+# OCR support
+poppler-utils  # system-level dependency for pdf2image to work
+
+# Optional: For better OCR results (if used)
+opencv-python-headless>=4.9.0.80
+
+# Caching & performance
+streamlit-option-menu>=0.3.6
+
+# Icons and enhancements (if used)
+fontawesomefree
+
+# For cloud deployment / compatibility (optional but useful)
+python-dotenv>=1.0.1
+
