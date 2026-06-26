@@ -13,8 +13,6 @@ folium>=0.16.0
 streamlit-folium>=0.15.0
 streamlit-geolocation==0.0.10
 
-# Utilities
-difflib
 
 # OCR support
 poppler-utils  # system-level dependency for pdf2image to work
