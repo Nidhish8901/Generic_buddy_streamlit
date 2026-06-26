@@ -5,6 +5,7 @@ from PIL import Image
 import pytesseract
 from pdf2image import convert_from_bytes
 from difflib import get_close_matches
+from pathlib import Path
 
 # ─────────────────────────────────────────────────────────────
 # 1. CONSTANTS
@@ -60,13 +61,31 @@ div.stButton > button:hover{
 # 4. LOAD DATA
 # ─────────────────────────────────────────────────────────────
 @st.cache_data
-def load_data(path="Final.csv"):
-    df = pd.read_csv(path)
-    df.columns = df.columns.str.strip()
-    df = df[df["Name"].str.lower() != "name"]  # Remove duplicate headers
+def load_data():
+    BASE_DIR = Path(__file__).resolve().parent.parent
+    csv_path = BASE_DIR / "Final.csv"
 
-    rename = {"uses": "Uses", "indications": "Uses", "side effects": "Side effects", "adverse effects": "Side effects"}
-    df.rename(columns={c: rename[c.lower()] for c in df if c.lower() in rename}, inplace=True)
+    if not csv_path.exists():
+        st.error(f"Final.csv not found.\nExpected location:\n{csv_path}")
+        st.stop()
+
+    df = pd.read_csv(csv_path)
+
+    df.columns = df.columns.str.strip()
+
+    df = df[df["Name"].str.lower() != "name"]
+
+    rename = {
+        "uses": "Uses",
+        "indications": "Uses",
+        "side effects": "Side effects",
+        "adverse effects": "Side effects"
+    }
+
+    df.rename(
+        columns={c: rename[c.lower()] for c in df.columns if c.lower() in rename},
+        inplace=True
+    )
 
     df["_form_clean"] = df[COL_FORMULATION].astype(str).str.strip().str.lower()
     df["_dosage_clean"] = df[COL_DOSAGE].astype(str).str.strip().str.lower()
@@ -75,8 +94,17 @@ def load_data(path="Final.csv"):
     for col in (COL_PRICE_GENERIC, COL_PRICE_BRAND, COL_SAVE_PCT):
         if col in df.columns:
             df[col] = pd.to_numeric(df[col], errors="coerce")
-    if COL_SAVE_PCT not in df.columns and {COL_PRICE_GENERIC, COL_PRICE_BRAND}.issubset(df.columns):
-        df[COL_SAVE_PCT] = 100 * (df[COL_PRICE_BRAND] - df[COL_PRICE_GENERIC]) / df[COL_PRICE_BRAND]
+
+    if (
+        COL_SAVE_PCT not in df.columns
+        and COL_PRICE_GENERIC in df.columns
+        and COL_PRICE_BRAND in df.columns
+    ):
+        df[COL_SAVE_PCT] = (
+            100
+            * (df[COL_PRICE_BRAND] - df[COL_PRICE_GENERIC])
+            / df[COL_PRICE_BRAND]
+        )
 
     return df
 
