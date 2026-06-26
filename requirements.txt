@@ -15,7 +15,7 @@ streamlit-geolocation==0.0.10
 
 
 # OCR support
-poppler-utils  # system-level dependency for pdf2image to work
+poppler-utils 
 
 # Optional: For better OCR results (if used)
 opencv-python-headless>=4.9.0.80
@@ -28,4 +28,6 @@ fontawesomefree
 
 # For cloud deployment / compatibility (optional but useful)
 python-dotenv>=1.0.1
+tesseract-ocr
+poppler-utils
 
