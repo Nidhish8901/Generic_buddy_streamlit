@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import re
+from pathlib import Path
 
 # Read the theme from session
 theme = st.session_state.get("theme", "Light Mode")
@@ -87,9 +88,19 @@ def is_mixed(formulation):
     if pd.isna(formulation): return "Pure"
     return "Mixed" if re.search(r"\+|/|,|&", formulation) else "Pure"
 
+from pathlib import Path
+
 @st.cache_data
-def load_data(path="Final.csv"):
-    df = pd.read_csv(path)
+def load_data():
+    BASE_DIR = Path(__file__).resolve().parent.parent
+    csv_path = BASE_DIR / "Final.csv"
+
+    if not csv_path.exists():
+        st.error(f"Final.csv not found.\nExpected location:\n{csv_path}")
+        st.stop()
+
+    df = pd.read_csv(csv_path)
+
     df.columns = df.columns.str.strip()
 
     rename = {
@@ -98,19 +109,31 @@ def load_data(path="Final.csv"):
         "side effects": "Side effects",
         "adverse effects": "Side effects"
     }
-    df.rename(columns={c: rename[c.lower()] for c in df if c.lower() in rename}, inplace=True)
 
-    df["_form_clean"] = df[COL_FORMULATION].str.strip().str.lower()
+    df.rename(
+        columns={c: rename[c.lower()] for c in df.columns if c.lower() in rename},
+        inplace=True,
+    )
+
+    df["_form_clean"] = df[COL_FORMULATION].astype(str).str.strip().str.lower()
     df["Formulation Type"] = df[COL_FORMULATION].apply(is_mixed)
     df["_dosage_clean"] = df[COL_DOSAGE].astype(str).str.strip().str.lower()
-    df["_type_clean"] = df[COL_TYPE].str.strip().str.lower()
+    df["_type_clean"] = df[COL_TYPE].astype(str).str.strip().str.lower()
 
     for col in (COL_PRICE_GENERIC, COL_PRICE_BRAND, COL_SAVE_PCT):
         if col in df.columns:
             df[col] = pd.to_numeric(df[col], errors="coerce")
 
-    if COL_SAVE_PCT not in df.columns and {COL_PRICE_GENERIC, COL_PRICE_BRAND}.issubset(df.columns):
-        df[COL_SAVE_PCT] = 100 * (df[COL_PRICE_BRAND] - df[COL_PRICE_GENERIC]) / df[COL_PRICE_BRAND]
+    if (
+        COL_SAVE_PCT not in df.columns
+        and COL_PRICE_GENERIC in df.columns
+        and COL_PRICE_BRAND in df.columns
+    ):
+        df[COL_SAVE_PCT] = (
+            100
+            * (df[COL_PRICE_BRAND] - df[COL_PRICE_GENERIC])
+            / df[COL_PRICE_BRAND]
+        )
 
     return df
 
