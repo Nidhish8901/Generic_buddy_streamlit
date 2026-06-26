@@ -28,6 +28,5 @@ fontawesomefree
 
 # For cloud deployment / compatibility (optional but useful)
 python-dotenv>=1.0.1
-tesseract-ocr
-poppler-utils
+
 
